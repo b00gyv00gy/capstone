@@ -1,0 +1,13 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+
+{% block body %}
+    {% for trip in trips %}
+        <h1>trip.name</h1>
+        <div id="items-view"> </div>
+    {% endfor %}
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'capstone/index.js' %}"></script>
+{% endblock %}

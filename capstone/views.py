@@ -8,18 +8,27 @@ from django.shortcuts import HttpResponse, HttpResponseRedirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import User
+from .models import User, Trip, Item, Expense, Participant
 
 
 def index(request):
 
-    # Authenticated users view their inbox
     if request.user.is_authenticated:
-        return render(request, "capstone/inbox.html")
+        trips = Trip.objects.all()
 
-    # Everyone else is prompted to sign in
+        return render(request, "capstone/index.html",{
+        "trips": trips
+    })
+
     else:
         return HttpResponseRedirect(reverse("login"))
+
+def get_items(request, trip_id):
+    items = Item.objects.filter(trip = trip_id)
+
+    return JsonResponse({
+        "items": items
+    })
 
 
 def login_view(request):
