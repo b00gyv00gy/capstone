@@ -14,22 +14,23 @@ from .models import User, Trip, Item, Expense, Participant
 def index(request):
 
     if request.user.is_authenticated:
-        trips = Trip.objects.all()
+        current_trip = Trip.objects.filter(is_archived = False).first()
+        archived_trips = Trip.objects.filter(is_archived = True)
+        current_items = Item.objects.filter(trip=current_trip)
+        expenses = Expense.objects.all()
+        current_expenses = Expense.objects.none()
+        for expense in expenses:
+            current_expenses |= current_items.filter(pk=expense.item)
+                
 
         return render(request, "capstone/index.html",{
-        "trips": trips
-    })
-
+        "current_trip": current_trip,
+        "archived_trips": archived_trips,
+        "current_items": current_items,
+        "current_expenses": current_expenses,
+        })
     else:
         return HttpResponseRedirect(reverse("login"))
-
-def get_items(request, trip_id):
-    items = Item.objects.filter(trip = trip_id)
-
-    return JsonResponse({
-        "items": items
-    })
-
 
 def login_view(request):
     if request.method == "POST":

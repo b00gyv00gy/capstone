@@ -26,6 +26,8 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'capstone.User'
 
+SECRET_KEY='*'
+
 # Application definition
 
 INSTALLED_APPS = [

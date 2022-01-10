@@ -2,10 +2,15 @@
 {% load static %}
 
 {% block body %}
-    {% for trip in trips %}
-        <h1>trip.name</h1>
-        <div id="items-view"> </div>
-    {% endfor %}
+    
+        <h1>{{current_trip.name}}</h1>
+        <div id="items-view">
+            {% for item in current_items%}
+                <li>{{item.name}}</li>
+
+            {% endfor %}
+        </div>
+    
 {% endblock %}
 
 {% block script %}
